@@ -1,0 +1,11 @@
+Métodos mágicos mais usados no php:
+
+__call() -> Tenta executar um método que não existe ou que é privado na classe
+
+__clone() -> clonar objetos para uma variavel
+
+__debugInfo() -> Quando damos um var_dump em uma instância/refência de um objeto para pegar as propriedades que devem ser mostradas
+
+__get() -> pega o atributo que você está tentando pegar em uma instancia de um objeto
+
+__invoke() -> tenta acessar uma referência como uma função
