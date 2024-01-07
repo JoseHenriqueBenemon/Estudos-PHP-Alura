@@ -1,0 +1,8 @@
+{"fact":"Cat bites are more likely to become infected than dog bites.","length":60}
+{"fact":"A cat usually has about 12 whiskers on each side of its face.","length":61}
+{"fact":"Cats should not be fed tuna exclusively, as it lacks taurine, an essential nutrient required for good feline health.  Make sure you have the proper Pet supplies to keep your cat happy and healthy.","length":196}
+{"fact":"Cats have the largest eyes of any mammal.","length":41}
+{"fact":"A form of AIDS exists in cats.","length":30}
+{"fact":"Foods that should not be given to cats include onions, garlic, green tomatoes, raw potatoes, chocolate, grapes, and raisins. Though milk is not toxic, it can cause an upset stomach and gas. Tylenol and aspirin are extremely toxic to cats, as are many common houseplants. Feeding cats dog food or canned tuna that\u2019s for human consumption can cause malnutrition.","length":360}
+{"fact":"A cat uses its whiskers for measuring distances.  The whiskers of a cat are capable of registering very small changes in air pressure.","length":134}
+{"fact":"The world\u2019s rarest coffee, Kopi Luwak, comes from Indonesia where a wildcat known as the luwak lives. The cat eats coffee berries and the coffee beans inside pass through the stomach. The beans are harvested from the cat\u2019s dung heaps and then cleaned and roasted. Kopi Luwak sells for about $500 for a 450 g (1 lb) bag.","length":319}
