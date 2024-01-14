@@ -1,0 +1,17 @@
+{
+    "name": "josehenriquebenemon/buscador-de-cursos",
+    "description": "Projeto do curso de Composer que busca os cursos de PHP dentro do site da Alura",
+    "type": "library",
+    "autoload": {
+        "psr-4": {
+            "Josehenriquebenemon\\BuscadorDeCursos\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "José Henrique Benemon",
+            "email": "jh.kito@hotmail.com"
+        }
+    ],
+    "require": {}
+}
