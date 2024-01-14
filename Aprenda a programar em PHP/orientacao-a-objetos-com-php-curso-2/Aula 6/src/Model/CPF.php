@@ -6,7 +6,8 @@ namespace Alura\Php\Model;
 final class CPF{
     private readonly string $cpf;
 
-    public function __construct(string $cpf){
+    public function __construct(string $cpf)
+    {
         $boolCPF = filter_var($cpf, FILTER_VALIDATE_REGEXP, [
             'options' => [
                 'regexp'=> '/^[0-9]{3}\.[0-9]{3}\.[0-9]{3}\-[0-9]{2}$/'
