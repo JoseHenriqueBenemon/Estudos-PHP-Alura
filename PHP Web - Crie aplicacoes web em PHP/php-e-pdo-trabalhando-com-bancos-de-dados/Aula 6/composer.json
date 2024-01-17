@@ -1,0 +1,10 @@
+{
+    "autoload": {
+        "psr-4": {
+            "Alura\\Php\\Pdo\\": "src/"
+        }
+    },
+    "require": {
+        "ext-pdo": "*"
+    }
+}
