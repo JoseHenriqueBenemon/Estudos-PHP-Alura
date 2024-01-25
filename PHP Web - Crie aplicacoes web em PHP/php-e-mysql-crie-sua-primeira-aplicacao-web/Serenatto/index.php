@@ -1,60 +1,35 @@
 <?php 
-    // Criando um array multidimensional para colocar os produtos
-    $arrProdutos = [
-        "breaskfast" => [
-            [
-                "img" => "img/cafe-cremoso.jpg",
-                "title" => "Café Cremoso",
-                "description" => "Café cremoso irresistivelmente suave e que envolve seu paladar.",
-                "value" => "5.00"
-            ],
-            [
-                "img" => "img/cafe-com-leite.jpg",
-                "title" => "Café com Leite",
-                "description" => "A harmonia perfeita do café e do leite, uma experiência reconfortante.",
-                "value" => "2.00"
-            ],
-            [
-                "img" => "img/cappuccino.jpg",
-                "title" => "Cappuccino",
-                "description" => "Café suave, leite cremoso e uma pitada de sabor adocicado.",
-                "value" => "7.00"
-            ],
-            [
-                "img" => "img/cafe-gelado.jpg",
-                "title" => "Café Gelado",
-                "description" => "Café gelado refrescante, adoçado e com notas sutis de baunilha ou caramelo.",
-                "value" => "3.00"
-            ]
-        ],
-        "lunch" => [
-            [
-                "img" => "img/bife.jpg",
-                "title" => "Bife",
-                "description" => "Bife, arroz com feijão e uma deliciosa batata frita.",
-                "value" => "27.90"
-            ],
-            [
-                "img" => "img/prato-peixe.jpg",
-                "title" => "Filé de peixe",
-                "description" => "Filé de peixe salmão assado, arroz, feijão verde e tomate.",
-                "value" => "24.99"
-            ],
-            [
-                "img" => "img/prato-frango.jpg",
-                "title" => "Frango",
-                "description" => "Saboroso frango à milanesa com batatas fritas, salada de repolho e molho picante.",
-                "value" => "23.00"
-            ],
-            [
-                "img" => "img/fettuccine.jpg",
-                "title" => "Fettuccine",
-                "description" => "Prato italiano autêntico da massa do fettuccine com peito de frango grelhado",
-                "value" => "22.50"
-            ]
-        ]
-    ];
+    require_once "./vendor/autoload.php";
 
+    use Alura\Php\Serenatto\Infrastructure\Persistence\ConnetionCreator;
+
+    try {
+        $pdo = ConnetionCreator::createConnection();
+
+        $sql = "SELECT * FROM products ORDER BY price;";
+        $stmt = $pdo->prepare($sql);
+        $stmt->execute();
+
+        if($stmt){ 
+            $arrProductList = $stmt->fetchAll();
+
+            $arrProdutos = [
+                "breakfast" => [],
+                "lunch" => []
+            ];
+
+            foreach ($arrProductList as $product) {
+                match ($product['type']) {
+                    'Café' => $arrProdutos['breakfast'][] = $product,
+                    'Almoço' => $arrProdutos['lunch'][] = $product
+                };
+            }
+            
+        }
+
+    } catch (Throwable $e) {
+        echo $e->getMessage();
+    }
 ?>
 <!doctype html>
 <html lang="pt-br">
@@ -86,14 +61,14 @@
                 <img class= "ornaments" src="img/ornaments-coffee.png" alt="ornaments">
             </div>
             <div class="container-cafe-manha-produtos">
-            <?php foreach ($arrProdutos['breaskfast'] as $produto): ?>
+            <?php foreach ($arrProdutos['breakfast'] as $produto): ?>
                 <div class="container-produto">
                     <div class="container-foto">
-                        <img src="<?=$produto["img"]?>">
+                        <img src="./img/<?=$produto["img"]?>">
                     </div>
                     <p><?=$produto["title"]?></p>
                     <p><?=$produto["description"]?></p>
-                    <p>R$ <?=$produto["value"]?></p>
+                    <p>R$ <?=$produto["price"]?></p>
                 </div>
             <?php endforeach; ?>
             </div>
@@ -107,11 +82,11 @@
                 <?php foreach ($arrProdutos['lunch'] as $produto): ?>
                 <div class="container-produto">
                     <div class="container-foto">
-                        <img src="<?=$produto['img']?>">
+                        <img src="./img/<?=$produto['img']?>">
                     </div>
                     <p><?=$produto["title"]?></p>
                     <p><?=$produto["description"]?></p>
-                    <p>R$ <?=$produto["value"]?></p>
+                    <p>R$ <?=$produto["price"]?></p>
                 </div>
                 <?php endforeach; ?>
             </div>
