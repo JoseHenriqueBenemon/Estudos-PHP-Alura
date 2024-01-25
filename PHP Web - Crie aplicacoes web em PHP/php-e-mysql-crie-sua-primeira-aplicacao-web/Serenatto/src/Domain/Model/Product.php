@@ -2,9 +2,11 @@
 
 namespace Alura\Php\Serenatto\Domain\Model;
 
+use DomainException;
+
 class Product
 {
-    private int $idProduct;
+    private ?int $idProduct;
 
     private string $type;
 
@@ -16,19 +18,28 @@ class Product
 
     private float $price;
 
-    public function __construct(int $idProduct, string $type, string $title, string $description, string $img, float $price)
+    public function __construct(?int $idProduct, string $type, string $title, string $description, float $price, string $img = "logo-serenatto.png")
     {
         $this->idProduct = $idProduct;
         $this->type = $type;
         $this->title = $title;
         $this->description = $description;
-        $this->img = $img;
         $this->price = $price;
+        $this->img = $img;
     }
 
-    public function getIdProduct(): int 
+    public function getIdProduct(): ?int 
     {
         return $this->idProduct;
+    }
+
+    public function setIdProduct(Product $product, int $idProduct): void
+    {
+        if (!is_null($product->getIdProduct())) {
+            throw new DomainException("Você não alterar o código de um produto!");
+        }
+
+        $this->idProduct = $idProduct;
     }
 
     public function getType(): string 
@@ -47,6 +58,11 @@ class Product
     }
 
     public function getImg(): string 
+    {
+        return $this->img;
+    }
+
+    public function getImgWithDir(): string 
     {
         return "./img/" . $this->img;
     }

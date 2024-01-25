@@ -34,8 +34,8 @@ class ProductRepository
                     $productItem['type'],
                     $productItem['title'],
                     $productItem['description'],
+                    $productItem['price'],
                     $productItem['img'],
-                    $productItem['price']
                 );
                 
                 match ($product->getType()) {
@@ -46,5 +46,49 @@ class ProductRepository
         }
         
         return $arrProdutos;
+    }
+
+    public function deleteById(int $idProduct): bool
+    {   
+        $sql = "DELETE FROM products WHERE idProduct = :idProduct;";
+        $stmt = $this->pdoConnection->prepare($sql);
+        $stmt->bindValue(":idProduct", $idProduct);
+
+
+        return $stmt->execute();
+    }
+
+    public function save(Product $product): bool
+    {
+        if (is_null($product->getIdProduct())) {
+            return $this->create($product); 
+        }
+
+        return $this->update($product);
+    }
+
+    public function create(Product $product): bool
+    {
+        $sql = "INSERT INTO products(type, title, description, img, price) VALUES (:type, :title, :description, :img, :price);";
+        $stmt = $this->pdoConnection->prepare($sql);
+        $stmt->bindValue(":type", $product->getType());
+        $stmt->bindValue(":title", $product->getTitle());
+        $stmt->bindValue(":description", $product->getDescription());
+        $stmt->bindValue(":img", $product->getImg());
+        $stmt->bindValue(":price", $product->getPrice());
+
+        $result = $stmt->execute();
+
+        if($result){
+            $product->setIdProduct($product, $this->pdoConnection->lastInsertId());
+        }
+
+        return $result;
+
+    }
+
+    public function update(Product $product): bool
+    {
+        return true;
     }
 }   

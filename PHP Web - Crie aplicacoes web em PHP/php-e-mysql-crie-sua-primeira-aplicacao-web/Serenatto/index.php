@@ -47,7 +47,7 @@
             <?php foreach ($arrProdutos['breakfast'] as $produto): ?>
                 <div class="container-produto">
                     <div class="container-foto">
-                        <img src="<?=$produto->getImg()?>">
+                        <img src="<?=$produto->getImgWithDir()?>">
                     </div>
                     <p><?=$produto->getTitle()?></p>
                     <p><?=$produto->getDescription()?></p>
@@ -65,7 +65,7 @@
                 <?php foreach ($arrProdutos['lunch'] as $produto): ?>
                 <div class="container-produto">
                     <div class="container-foto">
-                        <img src="<?=$produto->getImg()?>">
+                        <img src="<?=$produto->getImgWithDir()?>">
                     </div>
                     <p><?=$produto->getTitle()?></p>
                     <p><?=$produto->getDescription()?></p>

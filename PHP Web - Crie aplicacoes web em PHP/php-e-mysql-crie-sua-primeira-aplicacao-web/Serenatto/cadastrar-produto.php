@@ -1,3 +1,24 @@
+<?php 
+
+require_once "./vendor/autoload.php";
+
+use Alura\Php\Serenatto\Domain\Model\Product;
+use Alura\Php\Serenatto\Infrastructure\Persistence\ConnectionCreator;
+use Alura\Php\Serenatto\Infrastructure\Repository\ProductRepository;
+
+if (isset($_POST['create'])) {
+    $product = new Product(NULL, $_POST['type'], $_POST['title'], $_POST['description'], $_POST['price']);
+
+    $productRepository = new ProductRepository(ConnectionCreator::createConnection());
+
+    if ($productRepository->save($product)) {
+        header("Location: admin.php");
+    } else {
+        header("Location: cadastrar-produto.php");
+    }
+}
+
+?>
 <!doctype html>
 <html lang="pt-br">
 <head>
@@ -24,30 +45,30 @@
         <img class= "ornaments" src="img/ornaments-coffee.png" alt="ornaments">
     </section>
     <section class="container-form">
-        <form action="#">
+        <form method="POST">
 
             <label for="nome">Nome</label>
-            <input type="text" id="nome" name="nome" placeholder="Digite o nome do produto" required>
+            <input type="text" id="nome" name="title" placeholder="Digite o nome do produto" required>
             <div class="container-radio">
                 <div>
                     <label for="cafe">Café</label>
-                    <input type="radio" id="cafe" name="tipo" value="Café" checked>
+                    <input type="radio" id="cafe" name="type" value="Café" checked>
                 </div>
                 <div>
                     <label for="almoco">Almoço</label>
-                    <input type="radio" id="almoco" name="tipo" value="Almoço">
+                    <input type="radio" id="almoco" name="type" value="Almoço">
                 </div>
             </div>
             <label for="descricao">Descrição</label>
-            <input type="text" id="descricao" name="descricao" placeholder="Digite uma descrição" required>
+            <input type="text" id="descricao" name="description" placeholder="Digite uma descrição" required>
 
             <label for="preco">Preço</label>
-            <input type="text" id="preco" name="preco" placeholder="Digite uma descrição" required>
+            <input type="text" id="preco" name="price" placeholder="Digite uma descrição" required>
 
             <label for="imagem">Envie uma imagem do produto</label>
-            <input type="file" name="imagem" accept="image/*" id="imagem" placeholder="Envie uma imagem">
+            <input type="file" name="imagem" accept="image/*" id="img" placeholder="Envie uma imagem">
 
-            <input type="submit" name="cadastro" class="botao-cadastrar" value="Cadastrar produto"/>
+            <input type="submit" name="create" class="botao-cadastrar" value="Cadastrar produto"/>
         </form>
     
     </section>
