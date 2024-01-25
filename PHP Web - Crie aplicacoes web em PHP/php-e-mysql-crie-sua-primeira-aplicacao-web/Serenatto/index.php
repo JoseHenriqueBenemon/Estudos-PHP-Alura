@@ -1,31 +1,14 @@
 <?php 
     require_once "./vendor/autoload.php";
 
-    use Alura\Php\Serenatto\Infrastructure\Persistence\ConnetionCreator;
+    use Alura\Php\Serenatto\Infrastructure\Persistence\ConnectionCreator;
+    use Alura\Php\Serenatto\Infrastructure\Repository\ProductRepository;
 
     try {
-        $pdo = ConnetionCreator::createConnection();
+        $pdo = ConnectionCreator::createConnection();
+        $productRepository = new ProductRepository($pdo);
 
-        $sql = "SELECT * FROM products ORDER BY price;";
-        $stmt = $pdo->prepare($sql);
-        $stmt->execute();
-
-        if($stmt){ 
-            $arrProductList = $stmt->fetchAll();
-
-            $arrProdutos = [
-                "breakfast" => [],
-                "lunch" => []
-            ];
-
-            foreach ($arrProductList as $product) {
-                match ($product['type']) {
-                    'Café' => $arrProdutos['breakfast'][] = $product,
-                    'Almoço' => $arrProdutos['lunch'][] = $product
-                };
-            }
-            
-        }
+        $arrProdutos = $productRepository->getAllProduct();
 
     } catch (Throwable $e) {
         echo $e->getMessage();
@@ -64,11 +47,11 @@
             <?php foreach ($arrProdutos['breakfast'] as $produto): ?>
                 <div class="container-produto">
                     <div class="container-foto">
-                        <img src="./img/<?=$produto["img"]?>">
+                        <img src="<?=$produto->getImg()?>">
                     </div>
-                    <p><?=$produto["title"]?></p>
-                    <p><?=$produto["description"]?></p>
-                    <p>R$ <?=$produto["price"]?></p>
+                    <p><?=$produto->getTitle()?></p>
+                    <p><?=$produto->getDescription()?></p>
+                    <p><?=$produto->getPriceFormat()?></p>
                 </div>
             <?php endforeach; ?>
             </div>
@@ -82,11 +65,11 @@
                 <?php foreach ($arrProdutos['lunch'] as $produto): ?>
                 <div class="container-produto">
                     <div class="container-foto">
-                        <img src="./img/<?=$produto['img']?>">
+                        <img src="<?=$produto->getImg()?>">
                     </div>
-                    <p><?=$produto["title"]?></p>
-                    <p><?=$produto["description"]?></p>
-                    <p>R$ <?=$produto["price"]?></p>
+                    <p><?=$produto->getTitle()?></p>
+                    <p><?=$produto->getDescription()?></p>
+                    <p><?=$produto->getPriceFormat()?></p>
                 </div>
                 <?php endforeach; ?>
             </div>

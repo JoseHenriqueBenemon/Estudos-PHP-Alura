@@ -6,7 +6,7 @@ use PDO;
 use Throwable; 
 use DomainException;     
 
-class ConnetionCreator  
+class ConnectionCreator  
 {
     public static function createConnection(): PDO
     {   
