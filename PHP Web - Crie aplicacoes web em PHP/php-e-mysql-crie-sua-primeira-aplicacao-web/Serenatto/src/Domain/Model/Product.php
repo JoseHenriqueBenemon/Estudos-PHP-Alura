@@ -18,7 +18,7 @@ class Product
 
     private float $price;
 
-    public function __construct(?int $idProduct, string $type, string $title, string $description, float $price, string $img = "logo-serenatto.png")
+    public function __construct(?int $idProduct, string $type, string $title, string $description, float $price, string $img)
     {
         $this->idProduct = $idProduct;
         $this->type = $type;

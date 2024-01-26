@@ -3,5 +3,8 @@
         "psr-4": {
             "Alura\\Php\\Serenatto\\": "src"
         }
+    },
+    "require": {
+        "dompdf/dompdf": "^2.0"
     }
 }

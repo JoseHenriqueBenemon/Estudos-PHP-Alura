@@ -7,14 +7,20 @@ use Alura\Php\Serenatto\Infrastructure\Persistence\ConnectionCreator;
 use Alura\Php\Serenatto\Infrastructure\Repository\ProductRepository;
 
 if (isset($_POST['create'])) {
-    $product = new Product(NULL, $_POST['type'], $_POST['title'], $_POST['description'], $_POST['price']);
+    try {
+        $productRepository = new ProductRepository(ConnectionCreator::createConnection());
 
-    $productRepository = new ProductRepository(ConnectionCreator::createConnection());
+        $newPathImg = $productRepository->uploadImagem($_FILES['imagem']);
 
-    if ($productRepository->save($product)) {
-        header("Location: admin.php");
-    } else {
-        header("Location: cadastrar-produto.php");
+        $product = new Product(NULL, $_POST['type'], $_POST['title'], $_POST['description'], $_POST['price'], $newPathImg ?? "logo-serenatto.png");
+    
+        if ($productRepository->save($product)) {
+            header("Location: admin.php");
+        } else {
+            header("Location: cadastrar-produto.php");
+        }
+    } catch (Throwable $e) {
+        echo $e->getMessage();
     }
 }
 
@@ -45,7 +51,7 @@ if (isset($_POST['create'])) {
         <img class= "ornaments" src="img/ornaments-coffee.png" alt="ornaments">
     </section>
     <section class="container-form">
-        <form method="POST">
+        <form method="POST" enctype="multipart/form-data">
 
             <label for="nome">Nome</label>
             <input type="text" id="nome" name="title" placeholder="Digite o nome do produto" required>

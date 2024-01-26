@@ -1,3 +1,42 @@
+<?php
+
+require_once "./vendor/autoload.php";
+
+use Alura\Php\Serenatto\Domain\Model\Product;
+use Alura\Php\Serenatto\Infrastructure\Persistence\ConnectionCreator;
+use Alura\Php\Serenatto\Infrastructure\Repository\ProductRepository;
+
+try{
+  $idProduct = $_GET['idProduct'];
+
+  $productRepository = new ProductRepository(ConnectionCreator::createConnection());
+  
+  $product = $productRepository->getProductById($idProduct);
+
+  if (isset($_POST['update'])) {
+    $newPathImg = $productRepository->uploadImagem($_FILES['imagem']);
+
+    $productItem = new Product(
+      $_POST['idProduct'],
+      $_POST['type'],
+      $_POST['title'],
+      $_POST['description'],
+      $_POST['price'],
+      $newPathImg ?? $product->getImg()
+    );
+
+    if ($productRepository->save($productItem)) {
+      header("Location: admin.php");
+    } else {
+      header("Location: editar-produto.php");
+    }
+  }
+} catch (Throwable $e) {
+  echo $e->getMessage();
+}
+
+?>
+
 <!doctype html>
 <html lang="pt-br">
 <head>
@@ -24,32 +63,33 @@
     <img class= "ornaments" src="img/ornaments-coffee.png" alt="ornaments">
   </section>
   <section class="container-form">
-    <form action="#">
+    <form method="POST" enctype="multipart/form-data">
 
       <label for="nome">Nome</label>
-      <input type="text" id="nome" name="nome" placeholder="Digite o nome do produto" required>
+      <input type="text" id="nome" name="title" placeholder="Digite o nome do produto" value="<?=$product->getTitle()?>" required>
 
       <div class="container-radio">
         <div>
             <label for="cafe">Café</label>
-            <input type="radio" id="cafe" name="tipo" value="Café" checked>
+            <input type="radio" id="cafe" name="type" value="Café" <?= ($product->getType() == "Café") ? "checked" : "" ?>>
         </div>
         <div>
             <label for="almoco">Almoço</label>
-            <input type="radio" id="almoco" name="tipo" value="Almoço">
+            <input type="radio" id="almoco" name="type" value="Almoço" <?= ($product->getType() == "Almoço") ? "checked" : "" ?>>
         </div>
     </div>
 
       <label for="descricao">Descrição</label>
-      <input type="text" id="descricao" name="descricao" placeholder="Digite uma descrição" required>
+      <input type="text" id="descricao" name="description" placeholder="Digite uma descrição" value="<?=$product->getDescription()?>" required>
 
       <label for="preco">Preço</label>
-      <input type="text" id="preco" name="preco" placeholder="Digite uma descrição" required>
+      <input type="text" id="preco" name="price" placeholder="Digite uma descrição" value="<?=$product->getPrice()?>.00" required>
 
       <label for="imagem">Envie uma imagem do produto</label>
-      <input type="file" name="imagem" accept="image/*" id="imagem" placeholder="Envie uma imagem">
+      <input type="file" name="imagem" accept="image/*" id="img" placeholder="Envie uma imagem">
 
-      <input type="submit" name="editar" class="botao-cadastrar"  value="Editar produto"/>
+      <input type="hidden" name="idProduct" value="<?=$product->getIdProduct()?>">
+      <input type="submit" name="update" class="botao-cadastrar"  value="Editar produto"/>
     </form>
 
   </section>
