@@ -13,9 +13,9 @@ class ConnectionCreator
         // MySQL
         try{
             $host = "localhost";
-            $dbName = "serenatto";
-            $user = "root";
-            $pwd = "58318012J@sek";
+            $dbName = "";
+            $user = "";
+            $pwd = "";
 
             $pdoConnection = new PDO(
                 "mysql:host=$host;dbname=$dbName",
