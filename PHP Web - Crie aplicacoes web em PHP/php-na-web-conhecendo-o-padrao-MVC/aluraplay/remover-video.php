@@ -14,9 +14,9 @@ $stmt = $pdo->prepare($sql);
 $stmt->bindValue(":idVideo", $idVideo, PDO::PARAM_INT);
 
 if ($stmt->execute()) {
-    header("Location: ./index.php?msg=success");
+    header("Location: ./?msg=success");
 } else {
-    header("Location: ./index.php?msg=fail");
+    header("Location: ./?msg=fail");
 }
 
 die("Página inexistente!");

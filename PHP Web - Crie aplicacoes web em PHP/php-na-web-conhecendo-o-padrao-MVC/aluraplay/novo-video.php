@@ -21,7 +21,7 @@ $stmt->bindValue(':url', $url, PDO::PARAM_STR);
 $stmt->bindValue(':title', $title, PDO::PARAM_STR);
 
 if ($stmt->execute()) {
-    header("Location: ./index.php");
+    header("Location: ./");
 } else {
     header("Location: ./pages/enviar-video.php");
 }
